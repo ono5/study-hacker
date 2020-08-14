@@ -10,13 +10,15 @@ import (
 	"github.com/ono5/study-hacker/api/repository"
 )
 
-// HelloHandler is controller for hello feature
-func HelloHandler(c echo.Context) error {
+// DBHandler is controller for hello feature
+func DBHandler(c echo.Context) error {
 	m := driver.ConnectDB("study", "language")
-	id, err := repository.Create(m, &models.Language{
-		Japanese: "こんにちは!",
-		English:  "Hello!",
-	})
+	data := &models.Language{
+		Japanese: "こんにちは",
+		English:  "Hello",
+	}
+	mr := repository.NewMongoRepo(m, data)
+	id, err := mr.Create()
 
 	if err != nil {
 		return c.String(
