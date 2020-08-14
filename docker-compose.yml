@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  api:
+    build:
+        context: .
+    ports:
+      - "8080:8080"
+    container_name: api
+    depends_on:
+      - mongo
+    volumes:
+      - ./api:/go/src/github.com/ono5/study-hacker/api
+
+  mongo:
+    image: mongo
+    container_name: mongo
