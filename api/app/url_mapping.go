@@ -1,6 +1,7 @@
 package app
 
 import (
+	"github.com/ono5/study-hacker/api/controllers"
 	"github.com/ono5/study-hacker/api/server"
 )
 
