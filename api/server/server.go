@@ -8,6 +8,7 @@ import (
 // Explorer is a bunch of explorer methods
 type Explorer interface {
 	GET(path string, fn echo.HandlerFunc)
+	POST(path string, fn echo.HandlerFunc)
 }
 
 // Server stands for Echo Server
@@ -28,6 +29,11 @@ func NewServer() *Server {
 // GET is GET Method to register handler function
 func (s *Server) GET(path string, fn echo.HandlerFunc) {
 	s.engine.GET(path, fn)
+}
+
+// POST is POST Method to register handler function
+func (s *Server) POST(path string, fn echo.HandlerFunc) {
+	s.engine.POST(path, fn)
 }
 
 // Run starts echo server

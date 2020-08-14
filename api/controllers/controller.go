@@ -8,15 +8,15 @@ import (
 	"github.com/ono5/study-hacker/api/driver"
 	"github.com/ono5/study-hacker/api/models"
 	"github.com/ono5/study-hacker/api/repository"
+	"github.com/ono5/study-hacker/api/utils"
 )
 
-// DBHandler is controller for hello feature
-func DBHandler(c echo.Context) error {
+// CreateHandler is controller for hello feature
+func CreateHandler(c echo.Context) error {
+	data := new(models.Language)
+	err := c.Bind(data)
+	utils.LogFatal("Cannot paramter from context: %v\n", err)
 	m := driver.ConnectDB("study", "language")
-	data := &models.Language{
-		Japanese: "こんにちは",
-		English:  "Hello",
-	}
 	mr := repository.NewMongoRepo(m, data)
 	id, err := mr.Create()
 
