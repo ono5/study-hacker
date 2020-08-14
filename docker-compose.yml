@@ -11,7 +11,7 @@ services:
       - mongo
     volumes:
       - ./api:/go/src/github.com/ono5/study-hacker/api
-
+    command: realize start --run
   mongo:
     image: mongo
     container_name: mongo
