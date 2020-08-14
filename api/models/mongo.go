@@ -9,10 +9,10 @@ import (
 )
 
 var once sync.Once
-var instance *mongoDB
+var instance *MongoDB
 
 // GetDBInstance c
-func GetDBInstance() *mongoDB {
+func GetDBInstance() *MongoDB {
 	once.Do(func() {
 		db := newMongoDB()
 		instance = db
@@ -20,21 +20,21 @@ func GetDBInstance() *mongoDB {
 	return instance
 }
 
-// mongoDB is a struct to connect mongoDB Database
-type mongoDB struct {
+// MongoDB is a struct to connect MongoDB Database
+type MongoDB struct {
 	collection *mongo.Collection
 	client     *mongo.Client
 }
 
 // newMongoDB is a constractor
-func newMongoDB() *mongoDB {
-	m := mongoDB{}
+func newMongoDB() *MongoDB {
+	m := MongoDB{}
 	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://mongo:27017"))
 	utils.LogFatal("Fatal to create mongo client: %v\n", err)
 	m.client = client
 	return &m
 }
 
-func (m *mongoDB) ConnectDB(dbName, collectionName string) {
+func (m *MongoDB) ConnectDB(dbName, collectionName string) {
 	m.collection = m.client.Database(dbName).Collection(collectionName)
 }
