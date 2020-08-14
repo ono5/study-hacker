@@ -5,11 +5,10 @@ import (
 )
 
 // SetupServer - Set up server to run echo engine
-func SetupServer() server.Server {
-	server := server.NewServer()
-	UrlMapping(server)
-	server.Run()
-	return server
+func SetupServer() {
+	s := server.NewServer()
+	URLMapping(s)
+	s.Run()
 }
 
 // Run - application start

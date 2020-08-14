@@ -16,13 +16,13 @@ type Server struct {
 }
 
 // NewServer is a constoructor for Server
-func NewServer() Server {
+func NewServer() *Server {
 	s := Server{engine: echo.New()}
 	// SetUp Logger
 	s.engine.Use(middleware.Logger())
 	// SetUp Recover
 	s.engine.Use(middleware.Recover())
-	return s
+	return &s
 }
 
 // GET is GET Method to register handler function
