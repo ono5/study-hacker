@@ -12,8 +12,7 @@ import (
 
 // HelloHandler is controller for hello feature
 func HelloHandler(c echo.Context) error {
-	m := driver.ConnectDB()
-	m.GetCollection("study", "language")
+	m := driver.ConnectDB("study", "language")
 	id, err := repository.Create(m, &models.Language{
 		Japanese: "こんにちは!",
 		English:  "Hello!",
