@@ -1,6 +1,7 @@
 package models
 
 import (
+	"context"
 	"sync"
 
 	"github.com/ono5/study-hacker/api/utils"
@@ -32,10 +33,12 @@ func newMongoDB() *MongoDB {
 	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://mongo:27017"))
 	utils.LogFatal("Fatal to create mongo client: %v\n", err)
 	m.client = client
+	err = m.client.Connect(context.Background())
+	utils.LogFatal("Cannot connect to mongo db: %v", err)
 	return &m
 }
 
-// GetDB connects db
+// GetCollection connects db
 func (m *MongoDB) GetCollection(dbName, collectionName string) {
 	m.Collection = m.client.Database(dbName).Collection(collectionName)
 }
