@@ -6,6 +6,6 @@ import (
 )
 
 func UrlMapping(s server.Server) {
-	s.Get("/", controller.HelloHandler)
-	s.Get("/hello", controller.HelloHandler)
+	s.GET("/", controller.HelloHandler)
+	s.GET("/hello", controller.HelloHandler)
 }

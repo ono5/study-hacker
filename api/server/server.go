@@ -5,26 +5,32 @@ import (
 	"github.com/labstack/echo/middleware"
 )
 
-type Exploer interface {
-	Get(path string, fn echo.HandlerFunc)
+// Explorer is a bunch of explorer methods
+type Explorer interface {
+	GET(path string, fn echo.HandlerFunc)
 }
 
+// Server stands for Echo Server
 type Server struct {
-	engin *echo.Echo
+	engine *echo.Echo
 }
 
+// NewServer is a constoructor for Server
 func NewServer() Server {
-	s := Server{engin: echo.New()}
+	s := Server{engine: echo.New()}
 	// SetUp Logger
-	s.engin.Use(middleware.Logger())
+	s.engine.Use(middleware.Logger())
 	// SetUp Recover
-	s.engin.Use(middleware.Recover())
+	s.engine.Use(middleware.Recover())
 	return s
 }
 
-func (s *Server) Get(path string, fn echo.HandlerFunc) {
-	s.engin.GET(path, fn)
+// GET is GET Method to register handler function
+func (s *Server) GET(path string, fn echo.HandlerFunc) {
+	s.engine.GET(path, fn)
 }
+
+// Run starts echo server
 func (s *Server) Run() {
-	s.engin.Logger.Fatal(s.engin.Start(":8080"))
+	s.engine.Logger.Fatal(s.engine.Start(":8080"))
 }
