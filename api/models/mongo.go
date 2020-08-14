@@ -22,7 +22,7 @@ func GetDBInstance() *MongoDB {
 
 // MongoDB is a struct to connect MongoDB Database
 type MongoDB struct {
-	collection *mongo.Collection
+	Collection *mongo.Collection
 	client     *mongo.Client
 }
 
@@ -35,6 +35,7 @@ func newMongoDB() *MongoDB {
 	return &m
 }
 
-func (m *MongoDB) ConnectDB(dbName, collectionName string) {
-	m.collection = m.client.Database(dbName).Collection(collectionName)
+// GetDB connects db
+func (m *MongoDB) GetCollection(dbName, collectionName string) {
+	m.Collection = m.client.Database(dbName).Collection(collectionName)
 }
