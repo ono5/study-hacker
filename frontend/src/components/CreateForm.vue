@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     create() {
-      axios.post("localhost:8080/create", {
+      axios.post("http://localhost:8080/create", {
         "japanese": this.japanese,
         "english": this.english
       })
