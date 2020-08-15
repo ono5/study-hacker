@@ -1,0 +1,8 @@
+FROM node:lts-alpine
+MAINTAINER kanagawa App Developer Ltd
+
+RUN mkdir /frontend
+WORKDIR /frontend
+
+COPY ./frontend/ /frontend
+RUN npm install

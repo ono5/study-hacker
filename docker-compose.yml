@@ -12,6 +12,21 @@ services:
     volumes:
       - ./api:/go/src/github.com/ono5/study-hacker/api
     command: realize start --run
+  frontend:
+    build:
+        context: .
+        dockerfile: "./Dockerfile-nodejs"
+    ports:
+      - "3000:3000"
+    container_name: frontend
+    depends_on:
+      - api
+    volumes:
+      - ./frontend:/frontend
+    command: >
+      sh -c "npm run serve"
+    stdin_open: true
+
   mongo:
     image: mongo
     container_name: mongo
