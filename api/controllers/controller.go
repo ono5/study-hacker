@@ -46,7 +46,7 @@ func UpdateHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, data)
 }
 
-// DeleteHandler is controller for date feature
+// DeleteHandler is controller for delete feature
 func DeleteHandler(c echo.Context) error {
 	id := c.Param("id")
 
@@ -61,4 +61,19 @@ func DeleteHandler(c echo.Context) error {
 		)
 	}
 	return c.String(http.StatusOK, id)
+}
+
+// ReadAllHandler is controller for read all feature
+func ReadAllHandler(c echo.Context) error {
+	data := new(models.Language)
+	m := driver.ConnectDB("study", "language")
+	mr := repository.NewMongoRepo(m, data)
+	datas, err := mr.ReadAll()
+	if err != nil {
+		return c.String(
+			http.StatusInternalServerError,
+			fmt.Sprintf("%v", err),
+		)
+	}
+	return c.JSON(http.StatusOK, datas)
 }

@@ -15,6 +15,7 @@ type CRUD interface {
 	Create() (id string, err error)
 	Update(data *models.Language) (*models.Language, error)
 	Delete(id string) (string, error)
+	ReadAll() ([]models.Language, error)
 }
 
 // MongoRepo is a struct
@@ -84,4 +85,29 @@ func (mr MongoRepo) Delete(id string) (string, error) {
 	}
 
 	return id, nil
+}
+
+// ReadAll reads all data storead in mongodb
+func (mr MongoRepo) ReadAll() ([]models.Language, error) {
+	allData := []models.Language{}
+
+	cur, err := mr.mongoDB.Collection.Find(context.Background(), objectid.D{})
+	if err != nil {
+		return nil, err
+	}
+	defer cur.Close(context.Background())
+	for cur.Next(context.Background()) {
+		data := &models.Language{}
+		err := cur.Decode(data)
+		if err != nil {
+			return nil, err
+		}
+		allData = append(allData, *data)
+	}
+
+	if err := cur.Err(); err != nil {
+		return nil, err
+	}
+
+	return allData, nil
 }
