@@ -45,3 +45,20 @@ func UpdateHandler(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, data)
 }
+
+// DeleteHandler is controller for date feature
+func DeleteHandler(c echo.Context) error {
+	id := c.Param("id")
+
+	data := new(models.Language)
+	m := driver.ConnectDB("study", "language")
+	mr := repository.NewMongoRepo(m, data)
+	id, err := mr.Delete(id)
+	if err != nil {
+		return c.String(
+			http.StatusInternalServerError,
+			fmt.Sprintf("%v", err),
+		)
+	}
+	return c.String(http.StatusOK, id)
+}

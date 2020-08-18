@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/ono5/study-hacker/api/models"
@@ -13,6 +14,7 @@ import (
 type CRUD interface {
 	Create() (id string, err error)
 	Update(data *models.Language) (*models.Language, error)
+	Delete(id string) (string, error)
 }
 
 // MongoRepo is a struct
@@ -26,9 +28,9 @@ func NewMongoRepo(mongoDB *models.MongoDB, data *models.Language) *MongoRepo {
 	return &MongoRepo{mongoDB: mongoDB, data: data}
 }
 
-// Create creates Todo Item
+// Create creates Language Item
 func (mr MongoRepo) Create() (id string, err error) {
-	fmt.Println("Create Todo Item")
+	fmt.Println("Create Language Item")
 
 	res, err := mr.mongoDB.Collection.InsertOne(context.Background(), mr.data)
 	if err != nil {
@@ -41,9 +43,9 @@ func (mr MongoRepo) Create() (id string, err error) {
 	return oid.Hex(), nil
 }
 
-// Update updates data related id parameter
+// Update updates data related data contents
 func (mr MongoRepo) Update(data *models.Language) (*models.Language, error) {
-	fmt.Println("Update Todo Item")
+	fmt.Println("Update Language Item")
 
 	updateData := &models.Language{}
 	filter := objectid.D{{"_id", data.ID}}
@@ -61,4 +63,25 @@ func (mr MongoRepo) Update(data *models.Language) (*models.Language, error) {
 	}
 
 	return updateData, nil
+}
+
+// Delete deltes dat arelated id paramter
+func (mr MongoRepo) Delete(id string) (string, error) {
+	fmt.Println("Delete Language Item")
+	oid, err := objectid.ObjectIDFromHex(id)
+	if err != nil {
+		return "", err
+	}
+	filter := objectid.D{{"_id", oid}}
+
+	res, deleteErr := mr.mongoDB.Collection.DeleteOne(context.Background(), filter)
+	if deleteErr != nil {
+		return "", deleteErr
+	}
+
+	if res.DeletedCount == 0 {
+		return "", errors.New("Internal Server Error")
+	}
+
+	return id, nil
 }

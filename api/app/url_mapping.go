@@ -11,4 +11,5 @@ import (
 func URLMapping(s server.Explorer) {
 	s.POST("/create", controllers.CreateHandler)
 	s.POST("/update", controllers.UpdateHandler)
+	s.GET("/delete/:id", controllers.DeleteHandler) // localhost:8080/delete/id
 }
