@@ -10,4 +10,5 @@ import (
 // because they should be assigned in Explorer interface!
 func URLMapping(s server.Explorer) {
 	s.POST("/create", controllers.CreateHandler)
+	s.POST("/update", controllers.UpdateHandler)
 }

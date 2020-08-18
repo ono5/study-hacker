@@ -12,6 +12,7 @@ import (
 // CRUD interface defines Create, Read, Update, Delete methods
 type CRUD interface {
 	Create() (id string, err error)
+	Update(data *models.Language) (*models.Language, error)
 }
 
 // MongoRepo is a struct
@@ -28,9 +29,9 @@ func NewMongoRepo(mongoDB *models.MongoDB, data *models.Language) *MongoRepo {
 // Create creates Todo Item
 func (mr MongoRepo) Create() (id string, err error) {
 	fmt.Println("Create Todo Item")
+
 	res, err := mr.mongoDB.Collection.InsertOne(context.Background(), mr.data)
 	if err != nil {
-		fmt.Println("Insert Error", err)
 		return "", err
 	}
 	oid, ok := res.InsertedID.(objectid.ObjectID)
@@ -38,4 +39,26 @@ func (mr MongoRepo) Create() (id string, err error) {
 		utils.LogFatal("Cannot convert to OID %v\n", err)
 	}
 	return oid.Hex(), nil
+}
+
+// Update updates data related id parameter
+func (mr MongoRepo) Update(data *models.Language) (*models.Language, error) {
+	fmt.Println("Update Todo Item")
+
+	updateData := &models.Language{}
+	filter := objectid.D{{"_id", data.ID}}
+	if err := mr.mongoDB.Collection.FindOne(context.Background(), filter).Decode(updateData); err != nil {
+		return nil, err
+	}
+
+	updateData.ID = data.ID
+	updateData.Japanese = data.Japanese
+	updateData.English = data.English
+
+	_, updateErr := mr.mongoDB.Collection.ReplaceOne(context.Background(), filter, updateData)
+	if updateErr != nil {
+		return nil, updateErr
+	}
+
+	return updateData, nil
 }

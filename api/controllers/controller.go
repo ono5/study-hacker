@@ -11,7 +11,7 @@ import (
 	"github.com/ono5/study-hacker/api/utils"
 )
 
-// CreateHandler is controller for hello feature
+// CreateHandler is controller for create feature
 func CreateHandler(c echo.Context) error {
 	data := new(models.Language)
 	err := c.Bind(data)
@@ -27,4 +27,21 @@ func CreateHandler(c echo.Context) error {
 	}
 
 	return c.String(http.StatusOK, id)
+}
+
+// UpdateHandler is controller for update feature
+func UpdateHandler(c echo.Context) error {
+	data := new(models.Language)
+	err := c.Bind(data)
+	utils.LogFatal("Cannot paramter from context: %v\n", err)
+	m := driver.ConnectDB("study", "language")
+	mr := repository.NewMongoRepo(m, data)
+	data, err = mr.Update(data)
+	if err != nil {
+		return c.String(
+			http.StatusInternalServerError,
+			fmt.Sprintf("%v", err),
+		)
+	}
+	return c.JSON(http.StatusOK, data)
 }
