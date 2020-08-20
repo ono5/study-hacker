@@ -18,11 +18,22 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
-      datas: [{id: 1, japanese: 'テスト', english: 'test'}]
+      datas: []
     }
+  },
+  created: function() {
+    axios.get('http://localhost:8080')
+    .then(response => {
+      console.log(response)
+      this.datas = response.data
+    })
+  },
+  methods: {
+
   }
 }
 </script>
