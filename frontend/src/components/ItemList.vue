@@ -1,5 +1,5 @@
 <template>
-  <table>
+  <table class="langage-table">
     <thead>
       <tr>
         <th>No.</th>
@@ -8,8 +8,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="data in datas" :key="data.id">
-        <td>{{data.id}}</td>
+      <tr v-for="(data, index) in datas" :key="data.index">
+        <td>{{index + 1}}</td>
         <td>{{data.japanese}}</td>
         <td>{{data.english}}</td>
       </tr>
@@ -32,8 +32,12 @@ export default {
       this.datas = response.data
     })
   },
-  methods: {
-
-  }
 }
 </script>
+
+<style scoped>
+.langage-table {
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
