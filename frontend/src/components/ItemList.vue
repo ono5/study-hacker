@@ -7,29 +7,27 @@
         <th>English</th>
       </tr>
     </thead>
-    <tbody>
-      <tr v-for="(data, index) in datas" :key="data.index">
-        <td>{{index + 1}}</td>
-        <td>{{data.japanese}}</td>
-        <td>{{data.english}}</td>
-      </tr>
-    </tbody>
+      <Item :datas="items" />
   </table>
 </template>
 
 <script>
 import axios from 'axios'
+import Item from './Item'
+
 export default {
+  components: {
+    Item
+  },
   data() {
     return {
-      datas: []
+      items: []
     }
   },
   created: function() {
     axios.get('http://localhost:8080')
     .then(response => {
-      console.log(response)
-      this.datas = response.data
+      this.items = response.data
     })
   },
 }
