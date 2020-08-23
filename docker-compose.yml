@@ -25,6 +25,7 @@ services:
       - ./frontend:/frontend
     command: >
       sh -c "npm run serve"
+      # sh -c "while :; do sleep 10; done"
     stdin_open: true
 
   mongo:

@@ -5,4 +5,5 @@ RUN mkdir /frontend
 WORKDIR /frontend
 
 COPY ./frontend/ /frontend
+RUN npm install -g @vue/cli
 RUN npm install

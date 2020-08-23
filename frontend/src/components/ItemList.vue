@@ -5,6 +5,8 @@
         <th>No.</th>
         <th>日本語</th>
         <th>English</th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
       <Item :datas="items" />
