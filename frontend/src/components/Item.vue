@@ -24,5 +24,14 @@ export default {
 
   .delete {
     background-color: $deleteBtnColor;
+    outline: none;
+    color: #fff;
+    border: 1px solid #000;
+  }
+
+  .update {
+    background-color: green;
+    color: #fff;
+    border: 1px solid #000;
   }
 </style>
