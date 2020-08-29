@@ -6,22 +6,27 @@
     <label for="english">Enlish</label>
     <textarea type="text" v-model="english" id="english" />
     <br><br>
-    <button @click="create">Create</button>
+    <button @click="post">Create</button>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+
 import axios from 'axios'
 
-export default {
-  data() {
-    return {
-      japanese: "",
-      english: ""
-    }
-  },
-  methods: {
-    create() {
+@Component
+export default class CreateForm extends Vue {
+  japanese: string
+  english: string
+
+  constructor() {
+    super()
+    this.japanese = ''
+    this.english = ''
+  }
+
+  post(): void {
       axios.post("http://localhost:8080/create", {
         "japanese": this.japanese,
         "english": this.english
@@ -33,9 +38,10 @@ export default {
       .catch(err => console.log({err}))
       this.japanese = ''
       this.english = ''
-    }
   }
 }
+
+
 </script>
 
 <style scoped lang="sass">

@@ -13,25 +13,28 @@
   </table>
 </template>
 
-<script>
+<script lang="ts">
 import axios from 'axios'
-import Item from './Item'
+import Item from './Item.vue'
 
-export default {
+import { Component, Vue } from 'vue-property-decorator'
+import { Languages } from './models/items'
+
+@Component({
   components: {
     Item
-  },
-  data() {
-    return {
-      items: []
-    }
-  },
-  created: function() {
+  }
+})
+export default class ItemList extends Vue{
+  items: Languages[] = []
+
+  created() {
     axios.get('http://localhost:8080')
     .then(response => {
+      // console.log("Test")
       this.items = response.data
     })
-  },
+  }
 }
 </script>
 

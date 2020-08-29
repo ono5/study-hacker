@@ -10,12 +10,20 @@
   </tbody>
 </template>
 
-<script>
-export default {
-  props: ['datas'],
-  created: function() {
-    console.log(this.datas)
-  }
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Languages } from './models/items'
+
+@Component
+export default class Item extends Vue {
+
+  // typeにLanguagesを割り当てることはできない
+  // https://meetup-jp.toast.com/1843
+  @Prop({required: true})
+  datas!: Languages[]
+
+  // created() {
+  // }
 }
 </script>
 
